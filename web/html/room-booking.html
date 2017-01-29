@@ -1,0 +1,256 @@
+<div class="container">
+    <div class="row">
+
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+
+                <div class="panel-title pull-left">
+                    Room No : <span class="badge">102</span>
+                </div>
+                <div class="panel-title pull-right">Booking Time : <span class="badge"> <div
+                        date-now="dd/MM/yyyy hh:mm:ss"></div></span></div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="panel-body">
+
+                <form class="form-horizontal" ng-submit="confirmBooking()" name="bookingform" novalidate>
+
+                    <div class="form-group"
+                         ng-class="[{'has-error' : bookingform.name.$invalid && bookingform.name.$dirty, 'has-success' : bookingform.name.$valid}, 'has-feedback']">
+                        <label for="name" class="col-sm-2 control-label">Name</label>
+                        <div class="col-sm-10">
+                            <input type="text" id="name" name="name" class="form-control" capitalize-first-letters
+                                   ng-maxlength="50"
+                                   ng-minlength="3" placeholder="Full Name"
+                                   ng-model="bookingData.name" ng-pattern="/^[A-Za-z ]*$/" required>
+                            <span ng-class="['glyphicon',{'glyphicon-ok' : bookingform.name.$valid, 'glyphicon-remove' : bookingform.name.$invalid && bookingform.name.$dirty},'form-control-feedback']"></span>
+                            <span class="help-block" ng-show="bookingform.name.$error.pattern">Please use alphabets and spaces only. Numbers and special characters are not allowed !!</span>
+                            <span class="help-block" ng-show="bookingform.name.$error.minlength">Minimum length should be 3 characters !!</span>
+                            <span class="help-block" ng-show="bookingform.name.$error.maxlength">Minimum length should not more than 50 characters !!</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">Gender</label>
+                        <div class="col-sm-10">
+                            <select ng-model="bookingData.gender" ng-init="bookingData.gender = 'Male'"
+                                    class="form-control">
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                                <option value="Others">Others</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group"
+                         ng-class="[
+                            {'has-error' : bookingform.dob.$invalid && bookingform.dob.$dirty,
+                            'has-success' : bookingform.dob.$valid && bookingform.dob.$dirty},
+                         ]">
+                        <label class="col-sm-2 control-label">Date Of Birth</label>
+                        <div class="col-sm-10">
+                            <p class="input-group">
+                                <input type="text" name="dob" class="form-control" uib-datepicker-popup="{{dateFormat}}" ng-model="bookingData.dob" required  is-open="opened" datepicker-options="dateOptions" ng-required="true"  close-text="Close" alt-input-formats="altInputFormats"/>
+                               <!-- <span class="help-block" ng-show="bookingform.dob.$invalid && bookingform.dob.$dirty">Please select a valid date of birth!!</span>-->
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-default" ng-click="$event.stopPropagation();open()"><i class="glyphicon glyphicon-calendar"></i></button>
+                                </span>
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="form-group"
+                         ng-class="[
+                            {'has-error' : bookingform.email.$invalid && bookingform.email.$dirty,
+                            'has-success' : bookingform.email.$valid && bookingform.email.$dirty && bookingData.email != ''},
+                            'has-feedback'
+                         ]">
+                        <label class="col-sm-2 control-label">Email</label>
+                        <div class="col-sm-10">
+                            <input type="email" name="email" placeholder="Email Id" class="form-control" ng-trim="true"
+                                   ng-model="bookingData.email">
+                            <span ng-class="['glyphicon',{'glyphicon-ok' : bookingform.email.$valid && bookingform.email.$dirty && bookingData.email != '',
+                                                        'glyphicon-remove' : bookingform.email.$invalid && bookingform.email.$dirty},
+                                             'form-control-feedback']"></span>
+                            <span class="help-block" ng-show="bookingform.email.$invalid && bookingform.name.$dirty">Please enter a valid email id !!</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group" ng-class="['has-feedback', {
+                        'has-error' : bookingform.phone.$invalid && bookingform.phone.$dirty,
+                        'has-success' : bookingform.phone.$valid && bookingform.phone.$dirty
+                    }]">
+                        <label class="col-sm-2 control-label">Phone</label>
+                        <div class="col-sm-10">
+                            <input type="text" name="phone" placeholder="Phone Number" class="form-control"
+                                   ng-minlength="10" ng-model="bookingData.phone" ng-pattern="/^[0-9]*$/" required>
+                            <span ng-class="['form-control-feedback', 'glyphicon', {'glyphicon-ok' : bookingform.phone.$valid && bookingform.phone.$dirty,
+                                                            'glyphicon-remove' : bookingform.phone.$invalid && bookingform.phone.$dirty}]"></span>
+                            <span class="help-block" ng-show="bookingform.phone.$error.pattern">Please use numbers only !!</span>
+                            <span class="help-block" ng-show="bookingform.phone.$error.minlength">Phone number must be minimum of 10 digits !!</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group" ng-class="['has-feedback', {'has-error' : bookingform.idNumber.$invalid && bookingform.idNumber.$dirty,
+                                                        'has-success' : bookingform.idNumber.$valid && bookingform.idNumber.$dirty}]">
+                        <label class="col-sm-2 control-label">ID Proof</label>
+                        <div class="col-sm-3">
+                            <select class="form-control" ng-model="bookingData.idType"
+                                    ng-init="bookingData.idType='Passport'">
+                                <option>Passport</option>
+                                <option>Voter ID</option>
+                                <option>Driving License</option>
+                                <option>Aadhar Card</option>
+                                <option>Pan Card</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-7">
+                            <input type="text" class="form-control" ng-trim="true" ng-model="bookingData.idNumber"
+                                   upper-case ng-minlength="5" name="idNumber" placeholder="ID Number" required>
+                            <span ng-class="['form-control-feedback','glyphicon',
+                            {'glyphicon-ok' : bookingform.idNumber.$valid && bookingform.idNumber.$dirty,
+                            'glyphicon-remove' : bookingform.idNumber.$invalid && bookingform.idNumber.$dirty }]"></span>
+
+                            <span class="help-block" ng-show="bookingform.idNumber.$error.minlength">ID Number must be 5 characters long !!</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group" ng-class="['has-feedback',{'has-error' : (bookingform.noOfAdults.$invalid && bookingform.noOfAdults.$dirty) || (bookingform.noOfChildrens.$invalid && bookingform.noOfChildrens.$dirty),
+                                                       'has-success': (bookingform.noOfAdults.$valid && bookingform.noOfAdults.$dirty) || (bookingform.noOfChildrens.$valid && bookingform.noOfChildrens.$dirty)} ]">
+                        <label class="col-sm-2 control-label">No of Persons</label>
+                        <div class="col-sm-5">
+                            <div class="input-group">
+                                <span class="input-group-addon">Adults</span>
+                                <input type="number" ng-init="bookingData.noOfAdults = 1" ng-min="1" ng-max="9"
+                                       ng-model="bookingData.noOfAdults" name="noOfAdults" class="form-control"
+                                       placeholder="No of Adults" required>
+                                <span ng-class="['form-control-feedback', 'glyphicon', {
+                                    'glyphicon-ok' : bookingform.noOfAdults.$valid && bookingform.noOfAdults.$dirty,
+                                    'glyphicon-remove' : bookingform.noOfAdults.$invalid && bookingform.noOfAdults.$dirty
+                                }]"></span>
+                            </div>
+                            <span class="help-block" ng-show="bookingform.noOfAdults.$error.min">There must be atleast 1 adult person !!</span>
+                            <span class="help-block" ng-show="bookingform.noOfAdults.$error.max">Adult person must not exceed 9 numbers for single room !!</span>
+                        </div>
+
+                        <div class="col-sm-5">
+                            <div class="input-group">
+                                <span class="input-group-addon">Childrens</span>
+                                <input type="number" ng-init="bookingData.noOfChildrens = 0"
+                                       ng-model="bookingData.noOfChildrens" name="noOfChildrens" ng-min="0"
+                                       class="form-control" placeholder="No of Childrens">
+                                 <span ng-class="['form-control-feedback', 'glyphicon', {
+                                    'glyphicon-ok' : bookingform.noOfChildrens.$valid && bookingform.noOfChildrens.$dirty,
+                                    'glyphicon-remove' : bookingform.noOfChildrens.$invalid && bookingform.noOfChildrens.$dirty
+                                }]"></span>
+                            </div>
+                            <span class="help-block" ng-show="bookingform.noOfChildrens.$error.min">Invalid Value Selection !!</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group" ng-class="['has-feedback', {
+                        'has-error' : bookingform.addressLine1.$invalid && bookingform.addressLine1.$dirty ,
+                        'has-success' : bookingform.addressLine1.$valid && bookingform.addressLine1.$dirty
+                    }]">
+                        <label class="col-sm-2 control-label">Permanent Address</label>
+                        <div class="col-sm-10">
+                            <div class="input-group">
+                                <span class="input-group-addon">Line 1</span>
+                                <input type="text" ng-trim="true" class="form-control" name="addressLine1"
+                                       maxlength="200" ng-model="bookingData.addressLine1" placeholder="Address Line 1"
+                                       required>
+                                 <span ng-class="['form-control-feedback', 'glyphicon', {
+                                    'glyphicon-ok' : bookingform.addressLine1.$valid && bookingform.addressLine1.$dirty,
+                                    'glyphicon-remove' : bookingform.addressLine1.$invalid && bookingform.addressLine1.$dirty
+                                }]"></span>
+                            </div>
+                            <span class="help-block"
+                                  ng-show="bookingform.addressLine1.$invalid && bookingform.addressLine1.$dirty">This is a mandatory field !!</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group" ng-class="['has-feedback', {
+                        'has-error' : (bookingform.addressLine2.$invalid && bookingform.addressLine2.$dirty)||( bookingform.city.$invalid && bookingform.city.$dirty) ,
+                        'has-success' :(bookingform.addressLine2.$valid && bookingform.addressLine2.$dirty) || ( bookingform.city.$valid)
+                    }]">
+                        <div class="col-sm-5 col-sm-offset-2">
+                            <div class="input-group">
+                                <span class="input-group-addon">Line 2</span>
+                                <input type="text" class="form-control" maxlength="200"
+                                       ng-model="bookingData.addressLine2" name="addressLine2"
+                                       placeholder="Address Line 2">
+                                <span ng-class="['form-control-feedback', 'glyphicon', {
+                                    'glyphicon-ok' : bookingform.addressLine2.$valid && bookingform.addressLine2.$dirty && bookingData.addressLine2 != '',
+                                    'glyphicon-remove' : bookingform.addressLine2.$invalid && bookingform.addressLine2.$dirty
+                                }]"></span>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-5">
+                            <div class="input-group">
+                                <span class="input-group-addon">City</span>
+                                <input type="text" class="form-control" name="city" maxlength="20"
+                                       ng-model="bookingData.city" placeholder="City" required>
+                                 <span ng-class="['form-control-feedback', 'glyphicon', {
+                                    'glyphicon-ok' : bookingform.city.$valid && bookingform.city.$dirty,
+                                    'glyphicon-remove' : bookingform.city.$invalid && bookingform.city.$dirty
+                                }]"></span>
+                            </div>
+                            <span class="help-block" ng-show="bookingform.city.$invalid && bookingform.city.$dirty">This is a mandatory field !!</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group" ng-class="['has-feedback', {
+                        'has-error' : (bookingform.state.$invalid && bookingform.state.$dirty)||( bookingform.pincode.$invalid && bookingform.pincode.$dirty) ,
+                        'has-success' :(bookingform.state.$valid && bookingform.state.$dirty) && ( bookingform.pincode.$valid && bookingform.pincode.$dirty)
+                    }]">
+                        <div class="col-sm-5 col-sm-offset-2">
+                            <div class="input-group">
+                                <span class="input-group-addon">State</span>
+                                <input type="text" class="form-control" name="state" ng-model="bookingData.state"
+                                       ng-pattern="/^[A-Za-z ]*$/"
+                                       maxlength="20" placeholder="State" required>
+                                 <span ng-class="['form-control-feedback', 'glyphicon', {
+                                    'glyphicon-ok' : bookingform.state.$valid && bookingform.state.$dirty,
+                                    'glyphicon-remove' : bookingform.state.$invalid && bookingform.state.$dirty
+                                }]"></span>
+                            </div>
+                            <span class="help-block" ng-show="bookingform.state.$invalid && bookingform.state.$dirty">This is a mandatory field !!</span>
+                            <span class="help-block" ng-show="bookingform.state.$error.pattern">State must have only alphabets and space characters !!</span>
+                        </div>
+
+                        <div class="col-sm-5">
+                            <div class="input-group">
+                                <span class="input-group-addon">Pincode</span>
+                                <input type="number" name="pincode" ng-minlength="6" ng-maxlength="6"
+                                       ng-model="bookingData.pincode" class="form-control" placeholder="Pincode"
+                                       required>
+                                <span ng-class="['form-control-feedback', 'glyphicon', {
+                                    'glyphicon-ok' : bookingform.pincode.$valid && bookingform.pincode.$dirty,
+                                    'glyphicon-remove' : bookingform.pincode.$invalid && bookingform.pincode.$dirty
+                                }]"></span>
+                            </div>
+                            <span class="help-block" ng-show="bookingform.pincode.$error.minlength">Pin Code must be atleast 6 digits !!</span>
+                            <span class="help-block" ng-show="bookingform.pincode.$error.maxlength">Pin Code must not exceeds 6 digits !!</span>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 40px">
+                        <div class="col-sm-3 col-sm-offset-5">
+                            <button type="submit" class="btn btn-lg btn-success btn-block"
+                                    ng-disabled="bookingform.$invalid">
+                                <span class="glyphicon glyphicon-hand-up"></span> &nbsp; Check In ! &nbsp;&nbsp;
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div>
+        OUTPUT :
+        Name : {{bookingData}}
+    </div>
+
+</div>
+</div>

@@ -15,8 +15,8 @@
         $scope.dateOptions = {
             // dateDisabled: disabled,  https://plnkr.co/edit/?p=preview
             formatYear: 'yy',
-            maxDate: new Date(),
-            minDate: new Date(1800, 5, 22),
+            maxDate: new Date(2020, 7, 8),
+            minDate: new Date(1800, 7, 8),
             startingDay: 1,
         };
 
@@ -35,6 +35,9 @@
 
         /* --------------------------------------------------------------------------------------------- */
         $scope.confirmBooking = function () {
+
+            $scope.bookingData.roomNo = 123;
+            $scope.bookingData.bookingTime = new Date();
 
             if($scope.bookingData.addressLine2)
                 $scope.bookingData.permanentAddress = $scope.bookingData.addressLine1 + ' '  + $scope.bookingData.addressLine2 + ' ' + $scope.bookingData.city;

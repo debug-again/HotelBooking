@@ -1,7 +1,7 @@
 package com.hutshed.service;
 
-import com.hutshed.model.BookingHistory;
+import com.hutshed.model.Bookings;
 
 public interface BookingService {
-    long createBooking(BookingHistory bookingHistory);
+    long createBooking(Bookings bookings);
 }

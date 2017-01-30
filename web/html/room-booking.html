@@ -1,11 +1,11 @@
-<div class="container">
+<div class="container-fluid">
     <div class="row">
 
         <div class="panel panel-primary">
             <div class="panel-heading">
 
                 <div class="panel-title pull-left">
-                    Room No : <span class="badge">102</span>
+                    Room No : <span class="badge">{{bookingData.roomNo}}</span>
                 </div>
                 <div class="panel-title pull-right">Booking Time : <span class="badge"> <div
                         date-now="dd/MM/yyyy hh:mm:ss"></div></span></div>
@@ -50,10 +50,27 @@
                         <label class="col-sm-2 control-label">Date Of Birth</label>
                         <div class="col-sm-10">
                             <p class="input-group">
-                                <input type="text" name="dob" class="form-control" uib-datepicker-popup="{{dateFormat}}" ng-model="bookingData.dob" required  is-open="opened" datepicker-options="dateOptions" ng-required="true"  close-text="Close" alt-input-formats="altInputFormats"/>
+                                <input type="text" name="dob" class="form-control" uib-datepicker-popup="{{dateFormat}}" ng-model="bookingData.dob" required ng-init="openedDob = false"  is-open="openedDob" datepicker-options="dateOptions" ng-required="true"  close-text="Close" alt-input-formats="altInputFormats"/>
                                <!-- <span class="help-block" ng-show="bookingform.dob.$invalid && bookingform.dob.$dirty">Please select a valid date of birth!!</span>-->
                                 <span class="input-group-btn">
-                                    <button type="button" class="btn btn-default" ng-click="$event.stopPropagation();open()"><i class="glyphicon glyphicon-calendar"></i></button>
+                                    <button type="button" class="btn btn-default" ng-click="$event.stopPropagation(); openedDob = true;"><i class="glyphicon glyphicon-calendar"></i></button>
+                                </span>
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="form-group"
+                         ng-class="[
+                            {'has-error' : bookingform.checkIn.$invalid && bookingform.checkIn.$dirty,
+                            'has-success' : bookingform.checkIn.$valid && bookingform.checkIn.$dirty},
+                         ]">
+                        <label class="col-sm-2 control-label">CheckIn Date </label>
+                        <div class="col-sm-10">
+                            <p class="input-group">
+                                <input type="text" name="checkIn" class="form-control" uib-datepicker-popup="{{dateFormat}}" ng-model="bookingData.checkIn" required  ng-init="openedCheckIn = false"  is-open="openedCheckIn" datepicker-options="dateOptions" ng-required="true"  close-text="Close" alt-input-formats="altInputFormats"/>
+                                <!-- <span class="help-block" ng-show="bookingform.dob.$invalid && bookingform.dob.$dirty">Please select a valid date of birth!!</span>-->
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-default" ng-click="$event.stopPropagation(); openedCheckIn = true"><i class="glyphicon glyphicon-calendar"></i></button>
                                 </span>
                             </p>
                         </div>
@@ -156,7 +173,7 @@
                         <div class="col-sm-10">
                             <div class="input-group">
                                 <span class="input-group-addon">Line 1</span>
-                                <input type="text" ng-trim="true" class="form-control" name="addressLine1"
+                                <input type="text" ng-trim="true" class="form-control" name="addressLine1" capitalize-first-letters
                                        maxlength="200" ng-model="bookingData.addressLine1" placeholder="Address Line 1"
                                        required>
                                  <span ng-class="['form-control-feedback', 'glyphicon', {
@@ -176,7 +193,7 @@
                         <div class="col-sm-5 col-sm-offset-2">
                             <div class="input-group">
                                 <span class="input-group-addon">Line 2</span>
-                                <input type="text" class="form-control" maxlength="200"
+                                <input type="text" class="form-control" maxlength="200" capitalize-first-letters
                                        ng-model="bookingData.addressLine2" name="addressLine2"
                                        placeholder="Address Line 2">
                                 <span ng-class="['form-control-feedback', 'glyphicon', {
@@ -189,7 +206,7 @@
                         <div class="col-sm-5">
                             <div class="input-group">
                                 <span class="input-group-addon">City</span>
-                                <input type="text" class="form-control" name="city" maxlength="20"
+                                <input type="text" class="form-control" name="city" maxlength="20" capitalize-first-letters
                                        ng-model="bookingData.city" placeholder="City" required>
                                  <span ng-class="['form-control-feedback', 'glyphicon', {
                                     'glyphicon-ok' : bookingform.city.$valid && bookingform.city.$dirty,
@@ -207,9 +224,9 @@
                         <div class="col-sm-5 col-sm-offset-2">
                             <div class="input-group">
                                 <span class="input-group-addon">State</span>
-                                <input type="text" class="form-control" name="state" ng-model="bookingData.state"
+                                <input type="text" class="form-control" name="state" ng-model="bookingData.state" capitalize-first-letters
                                        ng-pattern="/^[A-Za-z ]*$/"
-                                       maxlength="20" placeholder="State" required>
+                                       maxlength="30" placeholder="State" required>
                                  <span ng-class="['form-control-feedback', 'glyphicon', {
                                     'glyphicon-ok' : bookingform.state.$valid && bookingform.state.$dirty,
                                     'glyphicon-remove' : bookingform.state.$invalid && bookingform.state.$dirty
@@ -237,7 +254,7 @@
 
                     <div style="margin-top: 40px">
                         <div class="col-sm-3 col-sm-offset-5">
-                            <button type="submit" class="btn btn-lg btn-success btn-block"
+                            <button type="submit" class="btn btn-lg btn-success btn-block remove-radius"
                                     ng-disabled="bookingform.$invalid">
                                 <span class="glyphicon glyphicon-hand-up"></span> &nbsp; Check In ! &nbsp;&nbsp;
                             </button>
@@ -247,10 +264,5 @@
             </div>
         </div>
     </div>
-    <div>
-        OUTPUT :
-        Name : {{bookingData}}
-    </div>
-
 </div>
 </div>

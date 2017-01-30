@@ -1,7 +1,7 @@
 package com.hutshed.dao;
 
-import com.hutshed.model.BookingHistory;
+import com.hutshed.model.Bookings;
 
 public interface BookingDAO {
-    long createBooking(BookingHistory bookingHistory);
+    long createBooking(Bookings bookings);
 }

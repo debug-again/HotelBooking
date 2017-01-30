@@ -21,7 +21,7 @@
         <property name="dataSource" ref="dataSource"/>
         <property name="annotatedClasses">
             <list>
-                <value>com.hutshed.model.BookingHistory</value>
+                <value>com.hutshed.model.Bookings</value>
             </list>
         </property>
         <property name="hibernateProperties">
@@ -29,7 +29,7 @@
                 <prop key="hibernate.dialect">${hibernate.dialect}</prop>
                 <prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl.auto}</prop>
                 <prop key="hibernate.show_sql">${hibernate.show_sql}</prop>
-                <prop key="hibernate.format_sql = true">${hibernate.format_sql}</prop>
+                <prop key="hibernate.format_sql">${hibernate.format_sql}</prop>
             </props>
         </property>
     </bean>

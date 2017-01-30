@@ -1,6 +1,6 @@
 package com.hutshed;
 
-import com.hutshed.model.BookingHistory;
+import com.hutshed.model.Bookings;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -16,10 +16,10 @@ public class Test {
             SessionFactory sessionFactory =  new Configuration().configure("test/hibernate-test.cfg.xml").buildSessionFactory();
             session = sessionFactory.openSession();
             txn = session.beginTransaction();
-            BookingHistory bookingHistory = new BookingHistory();
-            bookingHistory.setId(1);
-            bookingHistory.setName("test");
-            session.save(bookingHistory);
+            Bookings bookings = new Bookings();
+            bookings.setId(1);
+            bookings.setName("test");
+            session.save(bookings);
             txn.commit();
 
         } catch (Exception e) {
